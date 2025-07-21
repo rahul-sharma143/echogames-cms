@@ -69,6 +69,8 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    registrations: Registration;
+    tournamentRegistrations: TournamentRegistration;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -77,6 +79,8 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    registrations: RegistrationsSelect<false> | RegistrationsSelect<true>;
+    tournamentRegistrations: TournamentRegistrationsSelect<false> | TournamentRegistrationsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -119,6 +123,7 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: string;
+  username: string;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -158,6 +163,40 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "registrations".
+ */
+export interface Registration {
+  id: string;
+  playerName: string;
+  email: string;
+  gameMode: 'battle-royale' | 'team-deathmatch' | 'arena-combat' | 'mixed-modes';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tournamentRegistrations".
+ */
+export interface TournamentRegistration {
+  id: string;
+  tournament: number;
+  playerName: string;
+  email: string;
+  phone?: string | null;
+  dateOfBirth: string;
+  country: string;
+  experience?: string | null;
+  teamName?: string | null;
+  bio?: string | null;
+  emergencyContact?: string | null;
+  emergencyPhone?: string | null;
+  profileImage?: (string | null) | Media;
+  teamLogo?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -170,6 +209,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'registrations';
+        value: string | Registration;
+      } | null)
+    | ({
+        relationTo: 'tournamentRegistrations';
+        value: string | TournamentRegistration;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -218,6 +265,7 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  username?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -252,6 +300,38 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "registrations_select".
+ */
+export interface RegistrationsSelect<T extends boolean = true> {
+  playerName?: T;
+  email?: T;
+  gameMode?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tournamentRegistrations_select".
+ */
+export interface TournamentRegistrationsSelect<T extends boolean = true> {
+  tournament?: T;
+  playerName?: T;
+  email?: T;
+  phone?: T;
+  dateOfBirth?: T;
+  country?: T;
+  experience?: T;
+  teamName?: T;
+  bio?: T;
+  emergencyContact?: T;
+  emergencyPhone?: T;
+  profileImage?: T;
+  teamLogo?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
