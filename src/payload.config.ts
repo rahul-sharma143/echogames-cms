@@ -38,5 +38,5 @@ export default buildConfig({
   ],
 
   // 👇 ADD THIS
-  cors: ['http://localhost:3000', 'https://echogames-cms.onrender.com'],
+  cors: ['http://localhost:3000', ],
 })
